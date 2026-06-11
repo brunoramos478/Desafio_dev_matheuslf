@@ -5,11 +5,11 @@ import com.desafio.matheuslf.shared.dto.ProjectDto;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/projects")
@@ -27,8 +27,8 @@ public class ProjectController {
 
     @ApiResponse(responseCode = "200", description = "OK")
     @GetMapping()
-    public ResponseEntity<List<ProjectDto>> listAllProject(Pageable pageable) {
-        var response = service.listAllProjects(pageable);
-        return ResponseEntity.status(HttpStatus.OK).body(response.toList());
+    public ResponseEntity<Page<ProjectDto>> listAllProject(Pageable pageable) {
+        Page<ProjectDto> response = service.listAllProjects(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

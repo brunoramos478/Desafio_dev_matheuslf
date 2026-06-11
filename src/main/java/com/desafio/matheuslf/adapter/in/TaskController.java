@@ -4,7 +4,6 @@ import com.desafio.matheuslf.application.service.ApplicationService;
 import com.desafio.matheuslf.shared.dto.TaskDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
