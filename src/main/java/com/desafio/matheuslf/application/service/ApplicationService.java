@@ -6,6 +6,7 @@ import com.desafio.matheuslf.model.repository.ProjectRepository;
 import com.desafio.matheuslf.model.repository.TaskRepository;
 import com.desafio.matheuslf.shared.dto.ProjectDto;
 import com.desafio.matheuslf.shared.dto.TaskDto;
+import com.desafio.matheuslf.shared.enums.PriorityTask;
 import com.desafio.matheuslf.shared.enums.StatusTask;
 import com.desafio.matheuslf.shared.exception.InvalidDate;
 import com.desafio.matheuslf.shared.mapper.ProjectMapper;
@@ -14,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.UUID;
 
 @Service
@@ -80,4 +80,5 @@ public class ApplicationService {
 
     }
 
+    // public Page<TaskDto> searchTaskFilter(String status, PriorityTask priority, UUID id) {}
 }
