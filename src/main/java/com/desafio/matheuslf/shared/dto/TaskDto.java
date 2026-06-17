@@ -9,14 +9,14 @@ import java.util.UUID;
 
 @Builder
 public record TaskDto(
-        @NotBlank
+        @NotBlank(message = "O título da tarefa é obrigatório")
         String title,
         String description,
-        @NotBlank
+        @NotNull(message = "O status da tarefa é obrigatório")
         StatusTask status,
-        @NotNull
+        @NotNull(message = "A prioridade da tarefa é obrigatória")
         PriorityTask priority,
-        @NotNull
+        @NotNull(message = "O ID do projeto é obrigatório")
         UUID projectId
 ) {
 }

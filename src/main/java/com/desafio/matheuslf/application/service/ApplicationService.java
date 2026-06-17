@@ -9,6 +9,8 @@ import com.desafio.matheuslf.shared.dto.TaskDto;
 import com.desafio.matheuslf.shared.enums.PriorityTask;
 import com.desafio.matheuslf.shared.enums.StatusTask;
 import com.desafio.matheuslf.shared.exception.InvalidDate;
+import com.desafio.matheuslf.shared.exception.ProjectNotFound;
+import com.desafio.matheuslf.shared.exception.TaskNotFound;
 import com.desafio.matheuslf.shared.mapper.ProjectMapper;
 import com.desafio.matheuslf.shared.mapper.TaskMapper;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +47,7 @@ public class ApplicationService {
 
         TaskEntity task = TaskMapper.mapping.toTaskEntity(dto);
         ProjectEntity project = projectRepository.findById(dto.projectId())
-                .orElseThrow(() -> new RuntimeException("Project not found"));
+                .orElseThrow(() -> new ProjectNotFound());
 
         task.setProject(project);
         taskRepository.save(task);
@@ -65,7 +67,7 @@ public class ApplicationService {
 
     public void deleteTask(UUID id) {
         if (!taskRepository.existsById(id)) {
-            throw new RuntimeException("Task not found");
+            throw new TaskNotFound();
         }
 
         taskRepository.deleteById(id);
@@ -73,7 +75,7 @@ public class ApplicationService {
 
     public void updateStatusTask(UUID id, StatusTask status) {
         TaskEntity task = taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new TaskNotFound());
 
         task.setStatus(status);
         taskRepository.save(task);
