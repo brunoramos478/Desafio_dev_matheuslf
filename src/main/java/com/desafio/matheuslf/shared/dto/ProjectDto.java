@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import java.time.LocalDate;
-import java.util.List;
 
 @Builder
 public record ProjectDto(
@@ -14,7 +13,6 @@ public record ProjectDto(
         @NotNull
         LocalDate startDate,
         @NotNull
-        LocalDate endDate,
-        List<TaskDto> task
+        LocalDate endDate
 ) {
 }

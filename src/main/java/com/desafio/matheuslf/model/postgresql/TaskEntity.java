@@ -33,7 +33,7 @@ public class TaskEntity {
     @Enumerated(EnumType.STRING)
     private PriorityTask priority;
 
-    @ManyToOne
-    @JoinColumn(name = "id_project")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_project", nullable = false)
     private ProjectEntity project;
 }

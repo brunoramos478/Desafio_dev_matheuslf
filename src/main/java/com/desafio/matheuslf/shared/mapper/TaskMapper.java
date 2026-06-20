@@ -14,6 +14,7 @@ public interface TaskMapper {
     TaskDto toTaskDto(TaskEntity task);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "project", ignore = true)
     TaskEntity toTaskEntity(TaskDto taskDto);
 
 }

@@ -1,10 +1,10 @@
 package com.desafio.matheuslf.model.postgresql;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,6 +19,7 @@ public class ProjectEntity {
     private UUID id;
 
     @Column(name = "name", nullable = false)
+    @Size(min = 3, max = 100)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
@@ -29,8 +30,5 @@ public class ProjectEntity {
 
     @Column(name = "end_date")
     private LocalDate endDate;
-
-    @OneToMany(mappedBy = "project",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TaskEntity> task;
 
 }
