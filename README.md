@@ -126,6 +126,9 @@ spring.datasource.url=URL_DO_POSTGRE
 spring.datasource.username=USERNAME_POSTGRE
 spring.datasource.password=PASSWORD_POSTGRE
 spring.threads.virtual.enabled=true
+
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
 ````
 ### 3 Rode o comando.
 
