@@ -36,6 +36,7 @@ public class ApplicationService {
         projectRepository.save(project);
 
         return ProjectDto.builder()
+                .id(project.getId())
                 .name(dto.name())
                 .description(dto.description())
                 .startDate(dto.startDate())
@@ -57,6 +58,7 @@ public class ApplicationService {
                 .description(dto.description())
                 .status(dto.status())
                 .priority(dto.priority())
+                .projectId(dto.projectId())
                 .build();
     }
 
@@ -82,5 +84,9 @@ public class ApplicationService {
 
     }
 
-    // public Page<TaskDto> searchTaskFilter(String status, PriorityTask priority, UUID id) {}
+    public Page<TaskDto> searchTaskFilter(StatusTask status, PriorityTask priority, UUID id, Pageable pageable) {
+        Page<TaskEntity> tasks = taskRepository.findByFilters(status, priority, id, pageable);
+
+        return tasks.map(TaskMapper.mapping::toTaskDto);
+    }
 }

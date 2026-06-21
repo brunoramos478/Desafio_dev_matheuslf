@@ -6,7 +6,7 @@ services:
     image: postgres:alpine
     container_name: postgresql_desafio
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

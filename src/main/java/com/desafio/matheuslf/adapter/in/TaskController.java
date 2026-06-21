@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,14 +28,18 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-/*
+
     @ApiResponse(responseCode = "200", description = "OK, listando todas as tasks")
-    @GetMapping("/{status}/{priority}/{id}")
-    public ResponseEntity<Page<TaskDto>> searchTaskFilter(@RequestParam String status, @RequestParam PriorityTask priority, @RequestParam UUID id) {
-        var response = service.searchTaskFilter(status, priority, id);
+    @GetMapping()
+    public ResponseEntity<Page<TaskDto>> searchTaskFilter(
+            @RequestParam(required = false) StatusTask status,
+            @RequestParam(required = false) PriorityTask priority,
+            @RequestParam(required = false) UUID id,
+            Pageable pageable) {
+        var response = service.searchTaskFilter(status, priority, id, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-*/
+
 
     @ApiResponse(responseCode = "200", description = "OK, atualizando o status da task")
     @PutMapping("/{id}")
