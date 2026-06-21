@@ -7,13 +7,11 @@ import org.springframework.http.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class GlobalHandlerException extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidDate.class)
     public ProblemDetail handleInvalidDate(InvalidDate e) {
@@ -52,13 +50,8 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException e,
-            HttpHeaders headers,
-            HttpStatusCode status,
-            WebRequest request) {
-
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ProblemDetail handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST,
                 "Um ou mais campos estão inválidos. Verifique e tente novamente."
@@ -72,8 +65,6 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
         );
 
         problemDetail.setProperty("Erros", map);
-        return handleExceptionInternal(e, problemDetail, headers, status, request);
-
-
+        return problemDetail;
     }
 }

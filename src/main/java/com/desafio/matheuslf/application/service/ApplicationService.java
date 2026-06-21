@@ -48,7 +48,7 @@ public class ApplicationService {
 
         TaskEntity task = TaskMapper.mapping.toTaskEntity(dto);
         ProjectEntity project = projectRepository.findById(dto.projectId())
-                .orElseThrow(() -> new ProjectNotFound());
+                .orElseThrow((ProjectNotFound::new));
 
         task.setProject(project);
         taskRepository.save(task);
@@ -77,7 +77,7 @@ public class ApplicationService {
 
     public void updateStatusTask(UUID id, StatusTask status) {
         TaskEntity task = taskRepository.findById(id)
-                .orElseThrow(() -> new TaskNotFound());
+                .orElseThrow(TaskNotFound::new);
 
         task.setStatus(status);
         taskRepository.save(task);
