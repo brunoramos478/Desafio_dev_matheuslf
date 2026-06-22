@@ -15,6 +15,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -179,6 +184,68 @@ class ApplicationServiceTests {
         applicationService.createTask(taskDto);
 
         verify(taskRepository, times(1)).save(any(TaskEntity.class));
+    }
+
+    @Test
+    @DisplayName("busca tarefas com sucesso")
+    void shouldSearchTasksSuccessfully() {
+        Pageable pageable = PageRequest.of(0, 10);
+        projectId = UUID.randomUUID();
+
+        TaskEntity task = new TaskEntity();
+        task.setId(UUID.randomUUID());
+        task.setTitle("Test Task");
+        task.setStatus(StatusTask.TODO);
+        task.setPriority(PriorityTask.HIGH);
+
+        Page<TaskEntity> taskPage = new PageImpl<>(List.of(task), pageable, 1);
+
+        when(taskRepository.findByFilters(StatusTask.TODO, PriorityTask.HIGH, projectId, pageable))
+                .thenReturn(taskPage);
+
+        Page<TaskDto> result = applicationService.searchTaskFilter(StatusTask.TODO, PriorityTask.HIGH, projectId, pageable);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getContent()).hasSize(1);
+        assertThat(result.getTotalElements()).isEqualTo(1);
+        verify(taskRepository).findByFilters(StatusTask.TODO, PriorityTask.HIGH, projectId, pageable);
+    }
+
+    @Test
+    @DisplayName("busca tarefas retorna vazio")
+    void shouldSearchTasksReturnEmpty() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<TaskEntity> emptyPage = new PageImpl<>(List.of());
+        when(taskRepository.findByFilters(null, null, null, pageable))
+                .thenReturn(emptyPage);
+
+        Page<TaskDto> result = applicationService.searchTaskFilter(null, null, null, pageable);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getContent()).isEmpty();
+        verify(taskRepository).findByFilters(null, null, null, pageable);
+    }
+
+    @Test
+    @DisplayName("busca tarefas respeita paginação")
+    void shouldSearchTasksRespectsPageable() {
+        projectId = UUID.randomUUID();
+        Pageable pageable = PageRequest.of(1, 5);
+
+        TaskEntity task = new TaskEntity();
+        task.setId(UUID.randomUUID());
+        task.setTitle("Task");
+
+        Page<TaskEntity> taskPage = new PageImpl<>(List.of(task), pageable, 20);
+        when(taskRepository.findByFilters(StatusTask.TODO, null, projectId, pageable))
+                .thenReturn(taskPage);
+
+        Page<TaskDto> result = applicationService.searchTaskFilter(StatusTask.TODO, null, projectId, pageable);
+
+        assertThat(result.getPageable().getPageNumber()).isEqualTo(1);
+        assertThat(result.getPageable().getPageSize()).isEqualTo(5);
+        assertThat(result.getTotalElements()).isEqualTo(20);
     }
 }
 

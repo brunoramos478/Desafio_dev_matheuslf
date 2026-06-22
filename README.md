@@ -126,6 +126,9 @@ spring.datasource.url=URL_DO_POSTGRE
 spring.datasource.username=USERNAME_POSTGRE
 spring.datasource.password=PASSWORD_POSTGRE
 spring.threads.virtual.enabled=true
+
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
 ````
 ### 3 Rode o comando.
 
@@ -146,7 +149,7 @@ git clone https://github.com/brunoramos478/Desafio_dev_matheuslf.git
 
 ````bash
 # Exemplo de configuração para o Docker caso queira pode usar esse modelo aqui para agilizar o tempo.
-spring.datasource.url=jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:postgres}
+spring.datasource.url=jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:postgres}
 spring.datasource.username=${DB_USER:postgres}
 spring.datasource.password=${DB_PASSWORD:postgres}
 spring.datasource.driver-class-name=org.postgresql.Driver
@@ -198,8 +201,13 @@ docker compose build --no-cache; docker compose up -d
 ###### Optei pelo MapStruct, porque ele oferece menos boilerplate no mapper da aplicação em relação ao mapper feito à mão. Outra vantagem é que ele não usa reflection, porque é baseado em tempo de compilação. O que ele faz por baixo dos panos é gerar um código como se fosse feito à mão, mas só que esse código gerado vai para target.
 
 ### `OpenSwagger`
-###### Documentação da aplicação. 
+###### Documentação da aplicação.
 
+### `SonarQube`
+###### O código foi analisado no SonarQube para maior qualidade, tornando mais limpo, legível, profissional e mais tolerante a possíveis falhas.
+
+### `Workflow CI`
+###### Não era necessário, só implementei porque já tinha um modelo pré-definido, só fiz alguns microajustes para a implementação do workflow dar certo nesse repo.
 ***
 
 ## Link do desafio: 
