@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/projects")
@@ -18,17 +19,24 @@ public class ProjectController {
 
     private final ApplicationService service;
 
-    @ApiResponse(responseCode = "201", description = "Created")
+    @ApiResponse(responseCode = "201", description = "Created, criando o projeto")
     @PostMapping()
     public ResponseEntity<ProjectDto> newProject(@Valid @RequestBody ProjectDto dto) {
         var response = service.createProject(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "200", description = "OK, listando todos os projetos")
     @GetMapping()
     public ResponseEntity<Page<ProjectDto>> listAllProject(Pageable pageable) {
         Page<ProjectDto> response = service.listAllProjects(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @ApiResponse(responseCode = "204", description = "No Content, deletando o projeto")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> projectDelete(@PathVariable UUID id) {
+        service.deleteProject(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

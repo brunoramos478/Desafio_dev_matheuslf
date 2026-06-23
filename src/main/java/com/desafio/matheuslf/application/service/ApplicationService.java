@@ -75,6 +75,14 @@ public class ApplicationService {
         taskRepository.deleteById(id);
     }
 
+    public void deleteProject(UUID id) {
+        if (!projectRepository.existsById(id)) {
+            throw new ProjectNotFound();
+        }
+
+        projectRepository.deleteById(id);
+    }
+
     public void updateStatusTask(UUID id, StatusTask status) {
         TaskEntity task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFound::new);
