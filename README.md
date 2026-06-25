@@ -16,6 +16,7 @@ Metodos
 
 PostMapping()
 GetMapping()
+@DeleteMapping("/{id}")
 ```
 
 #### JSON
